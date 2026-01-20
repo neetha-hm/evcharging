@@ -1,0 +1,51 @@
+/* 📱 Mobile & Tablet (default) → Card Layout */
+.transaction-item {
+  display: block;
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.transaction-details {
+  margin-bottom: 10px;
+}
+
+.transaction-amount {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #0d47a1;
+}
+
+/* 💻 Desktop & Laptop (≥ 992px) → Table Layout */
+@media (min-width: 992px) {
+  .transactions-wrapper {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .transaction-item {
+    display: table-row;
+    background: none;
+    box-shadow: none;
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    padding: 0;
+  }
+
+  .transaction-details,
+  .transaction-amount {
+    display: table-cell;
+    padding: 10px;
+    vertical-align: middle;
+  }
+
+  .transaction-amount {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #000;
+  }
+}

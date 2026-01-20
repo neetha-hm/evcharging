@@ -1,0 +1,21 @@
+element.style {
+    width: 60%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #111;
+    margin-right: 50px;
+}
+
+
+
+#qrs-video {
+  width: 10%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #111; /* clearer than background */
+  display: block;         /* makes margin behave predictably */
+  margin: 30px auto 0;    /* centers horizontally with top gap */
+}
+

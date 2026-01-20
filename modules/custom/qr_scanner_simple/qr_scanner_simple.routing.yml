@@ -1,0 +1,59 @@
+# qr_scanner_simple.page:
+#   path: '/qr-scanner-simple'
+#   defaults:
+#     _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::page'
+#   requirements:
+#     _role: 'authenticated'
+#     _permission: 'access content'
+
+# qr_scanner_simple.scan_submit:
+#   path: '/qr-scanner-simple/submit'
+#   defaults:
+#     _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::submit'
+#   requirements:
+#     _role: 'authenticated'
+#     _permission: 'access content'
+#     _method: 'POST'
+
+# qr_scanner_simple.redirect:
+#   path: '/qr-scanner-simple/submit'
+#   defaults:
+#     _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::redirectToHomepage'
+#   requirements:
+#     _permission: 'access content'
+#     _method: 'GET'
+
+qr_scanner_simple.resume:
+  path: '/qr-scanner-simple/resume'
+  defaults:
+    _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::resumeAfterLogin'
+    _title: 'Resume QR Scan'
+  requirements:
+    _access: 'TRUE'
+
+qr_scanner_simple.submit:
+  path: '/qr-scanner-simple/submit'
+  defaults:
+    _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::submit'
+    _title: 'Submit QR Scan'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+qr_scanner_simple.page:
+  path: '/qr-scanner-simple'
+  defaults:
+    _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::page'
+  requirements:
+    _role: 'authenticated'
+    _permission: 'access content'
+
+qr_scanner_simple.device_event_log:
+  path: '/api/device_event_log'
+  defaults:
+    _controller: '\Drupal\qr_scanner_simple\Controller\QrScannerSimpleController::deviceEventLog'
+    _title: 'Device Event Log API'
+  requirements:
+    _access: 'TRUE'
+  methods: [POST]

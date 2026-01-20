@@ -1,0 +1,13 @@
+.region-nav-main {
+  display: flex;
+  justify-content: flex-end; /* keeps both on right */
+  gap: 20px; /* spacing */
+}
+
+.region-nav-main a {
+  order: 1; /* default order */
+}
+
+.region-nav-main a[href*="logout"] {
+  order: 2; /* force logout to come after My account */
+}

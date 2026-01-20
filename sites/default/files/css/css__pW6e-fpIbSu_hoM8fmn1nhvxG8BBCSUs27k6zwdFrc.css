@@ -1,0 +1,6 @@
+/* @license GPL-2.0-or-later https://www.drupal.org/licensing/faq */
+#qrs-video{width:100%;aspect-ratio:3 / 4;object-fit:cover;border-radius:12px;background:#111;margin-top:18px;}
+.view-energy-readings-of-users .view-content{overflow-x:auto;display:block;max-width:100%;}.view-energy-readings-of-users .view-content .view-table{min-width:1200px;width:auto;table-layout:auto;}
+.region-nav-main{display:flex;justify-content:flex-end;gap:20px;}.region-nav-main a{order:1;}.region-nav-main a[href*="logout"]{order:2;}
+.region.region-nav-main{width:100%;display:flex;justify-content:center;}element.style{margin-top:-58px;}
+.container{display:flex;flex-wrap:wrap;}.item{flex:1 1 100%;}@media (min-width:768px){.item{flex:1 1 50%;}}@media (min-width:1024px){.item{flex:1 1 25%;}}

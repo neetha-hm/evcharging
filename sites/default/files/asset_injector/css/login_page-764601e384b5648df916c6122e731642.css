@@ -1,0 +1,11 @@
+.form-item, .form-actions {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: 353px;
+}
+@media (max-width: 767.98px) {
+    .tabs-wrapper .nav-item.active, .tabs-wrapper .media-library-view--widget .view-header a.nav-item.is-active, .media-library-view--widget .view-header .tabs-wrapper a.nav-item.is-active {
+        background-color: #dee2e6;
+        margin-right: 462px;
+    }
+}

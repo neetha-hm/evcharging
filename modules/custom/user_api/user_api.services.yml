@@ -1,0 +1,9 @@
+services:
+  user_api.controller:
+    class: Drupal\user_api\Controller\UserApiController
+    arguments: ['@logger.factory']
+
+  Drupal\user_api\Commands\UserApiCommands:
+    arguments: ['@user_api.controller', '@logger.factory']
+    tags:
+      - { name: drush.command }

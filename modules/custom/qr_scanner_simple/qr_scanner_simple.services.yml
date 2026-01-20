@@ -1,0 +1,4 @@
+services:
+  qr_scanner_simple.controller:
+    class: Drupal\qr_scanner_simple\Controller\QrScannerSimpleController
+    arguments: ['@logger.factory', '@user_api.controller']

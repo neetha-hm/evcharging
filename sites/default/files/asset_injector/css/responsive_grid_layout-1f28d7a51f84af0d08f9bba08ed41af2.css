@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  flex: 1 1 100%; /* Full width on small screens */
+}
+
+@media (min-width: 768px) {
+  .item {
+    flex: 1 1 50%; /* Two columns on tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  .item {
+    flex: 1 1 25%; /* Four columns on desktop */
+  }
+}

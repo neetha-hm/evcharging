@@ -1,0 +1,13 @@
+/* Make the view content scrollable */
+.view-energy-readings-of-users .view-content {
+  overflow-x: auto;
+  display: block;
+  max-width: 100%;
+}
+
+/* Force the table to be wider than the container */
+.view-energy-readings-of-users .view-content .view-table {
+  min-width: 1200px; /* adjust based on how many columns */
+  width: auto;       /* important: allow table to expand */
+  table-layout: auto;
+}

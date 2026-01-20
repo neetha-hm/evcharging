@@ -1,0 +1,103 @@
+<?php
+
+use Drupal\Core\Session\SessionManagerInterface;
+use Drupal\Core\Url;
+use Drupal\user\UserInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
+
+function user_api_page_attachments(array &$attachments) {
+  $current_user = \Drupal::currentUser();
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $current_path = \Drupal::service('path.current')->getPath();
+
+  // Skip redirect for QR scanner and login-related routes/paths
+  $skip_routes = [
+    'qr_scanner_simple.resume',
+    'qr_scanner_simple.submit',
+    'user.login',
+    'user.login.http',
+    'user.logout',
+  ];
+  $skip_paths = [
+    '/vehicle_app/qr-scanner-simple',
+    '/vehicle_app/user/login',
+    '/vehicle_app/user/logout',
+  ];
+  if (in_array($route_name, $skip_routes) || str_contains($current_path, '/vehicle_app/qr-scanner-simple') || str_contains($current_path, '/vehicle_app/user/')) {
+    \Drupal::logger('user_api')->debug('Skipping redirect on route: @route (@path) for user @user', [
+      '@route' => $route_name ?? 'none',
+      '@path' => $current_path,
+      '@user' => $current_user->getDisplayName() ?: 'anonymous',
+    ]);
+    return;
+  }
+
+  // Only handle redirects for authenticated users
+  if ($current_user->isAuthenticated()) {
+    // Redirect from front page
+    if ($route_name === '<front>') {
+      \Drupal::logger('user_api')->notice('Redirecting logged-in user @uid from front page to /energy-readings-of-users', [
+        '@uid' => $current_user->id(),
+      ]);
+      $url = \Drupal\Core\Url::fromUserInput('/energy-readings-of-users')->toString();
+      $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url);
+      $response->send();
+      exit;
+    }
+
+    // Redirect from /user/{uid} page
+    if ($route_name === 'entity.user.canonical') {
+      \Drupal::logger('user_api')->notice('Redirecting logged-in user @uid from /user/{uid} to /energy-readings-of-users', [
+        '@uid' => $current_user->id(),
+      ]);
+      $url = \Drupal\Core\Url::fromUserInput('/energy-readings-of-users')->toString();
+      $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url);
+      $response->send();
+      exit;
+    }
+  }
+}
+
+function user_api_user_login(UserInterface $account) {
+  $request = \Drupal::request();
+  $session = $request->getSession();
+  $destination = $request->query->get('destination');
+
+  // Backup QR value from session before session reset
+  $pendingQr = $session->get('pending_qr_value');
+
+  \Drupal::logger('user_api')->debug('🔍 Login Debug → user: @user | dest: @dest | pending QR: @qr | session ID: @sid', [
+    '@user' => $account->getDisplayName(),
+    '@dest' => $destination ?? 'null',
+    '@qr' => $pendingQr ?? 'none',
+    '@sid' => $session->getId() ?: 'none',
+  ]);
+
+  // Check for QR flow
+  if ($pendingQr || ($destination && str_contains($destination, '/qr-scanner-simple/resume'))) {
+    // Pass QR value via URL to avoid relying solely on session
+    $redirectUrl = Url::fromRoute('qr_scanner_simple.resume', [], [
+      'query' => ['qr_value' => $pendingQr],
+    ])->toString();
+
+    \Drupal::logger('user_api')->notice('✅ QR flow detected → redirecting @user to: @url', [
+      '@user' => $account->getDisplayName(),
+      '@url' => $redirectUrl,
+    ]);
+
+    // Re-save QR to new session
+    $session->set('pending_qr_value', $pendingQr);
+
+    // Redirect with no-cache header
+    $response = new RedirectResponse($redirectUrl);
+    $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    $response->send();
+    exit;
+  }
+
+  // Fallback
+  \Drupal::logger('user_api')->debug('ℹ️ No QR flow for @user → letting Drupal default…', [
+    '@user' => $account->getDisplayName(),
+  ]);
+}
